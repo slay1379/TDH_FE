@@ -1,28 +1,31 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import TodoPage from './pages/TodoPage';
 import './App.css';
 
-function App(){
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+  
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  };
+
   return(
-    <div className='app-container'>
-      <h2 className='todo-title'>TO DO 집안일</h2>
-      <div className='login-container'>
-        <div className='login-box'>
-          <h1 className='login-title'>USER LOGIN</h1>
-          <p className='login-subtitle'>집안일 트래커</p>
-          <div className='login-avatar'></div>
-          <form className='login-form'>
-            <input type='text' placeholder='username' className='login-input'/>
-            <input type='password' placeholder='password' className='login-input'/>
-            <div className='login-remember-me'>
-              <input type='checkbox' id='remember-me'/>
-              <label htmlFor='remeber-me'>remember me</label>
-            </div>
-            <button type='submit' className='login-button'>LOGIN</button>
-          </form>
-          <a href='/forgot-password' className='login-forgot-password'>forgot password?</a>
+    <Router>
+      <div className='app'>
+        <div className='main-content'>
+          <Routes>
+            <Route path='/login' element={<LoginPage onLogin={handleLogin} />}/>
+            <Route path='/todos' element={isAuthenticated ? <TodoPage /> : <Navigate to='/login'/>}/>
+          </Routes>
         </div>
       </div>
-    </div>
+    </Router>
   );
 }
 

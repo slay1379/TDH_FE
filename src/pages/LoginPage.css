@@ -1,0 +1,140 @@
+@font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'TheJamsil5Bold', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background-color: #222222;
+  }
+  
+  body::before, body::after {
+    content: '';
+    position: absolute;
+    background: #63FD8A;
+    border-radius: 50%;
+    opacity: 0.8;
+    z-index: -1;
+  }
+  
+  body::before {
+    width: 1000px;
+    height: 1000px;
+    top: -400px;
+    left: -400px;
+  }
+  
+  body::after {
+    width: 1000px;
+    height: 1000px;
+    bottom: -400px;
+    right: -400px;
+  }
+  
+  .app-container {
+    text-align: center;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .todo-title {
+    color: white;
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+  
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .login-box {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .login-title {
+    color: #4FE976;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .login-subtitle {
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+  
+  .login-avatar {
+    background-color: #e9ecef;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px auto;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .login-input {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+  }
+  
+  .login-remember-me {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #495057;
+  }
+  
+  .login-button {
+    padding: 10px;
+    background-color: #4FE976;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .login-forgot-password {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #6c757d;
+    text-decoration: none;
+  }
+  
+  .svg-clip {
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+  
+  .svg-clip path {
+    fill: none;
+  }
