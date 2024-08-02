@@ -19,7 +19,7 @@ function App(){
             </div>
             <button type='submit' className='login-button'>LOGIN</button>
           </form>
-          <a href='/forgot-password' className='login-forgot-password'>Forgot password?</a>
+          <a href='/forgot-password' className='login-forgot-password'>forgot password?</a>
         </div>
       </div>
     </div>
