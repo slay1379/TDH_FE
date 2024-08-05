@@ -5,86 +5,10 @@
   font-style: normal;
 }
 
-body {
-  margin: 0;
-  font-family: 'TheJamsil5Bold', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-  background-color: #222222;
-  color: white;
-}
-
-body::before, body::after {
-  content: '';
-  position: absolute;
-  background: #63FD8A;
-  border-radius: 50%;
-  opacity: 0.8;
-  z-index: -1;
-}
-
-body::before {
-  width: 1000px;
-  height: 1000px;
-  top: -400px;
-  left: -400px;
-}
-
-body::after {
-  width: 1000px;
-  height: 1000px;
-  bottom: -400px;
-  right: -400px;
-}
-
 .app-container {
   text-align: center;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.todo-title {
-  font-size: 50px;
-  color: #fff;
-  margin-bottom: 20px;
-}
-
-.home, .todo-page {
-  padding: 20px;
-  text-align: center;
-}
-
-.todo-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.todo-table th, .todo-table td {
-  border: 1px solid #444;
-  padding: 10px;
-  text-align: left;
-}
-
-.category {
-  padding: 5px 10px;
-  border-radius: 5px;
-}
-
-.category.주방 {
-  background-color: #4CAF50;
-}
-
-.category.기타 {
-  background-color: #757575;
-}
-
-.category.화장실 {
-  background-color: #F44336;
 }

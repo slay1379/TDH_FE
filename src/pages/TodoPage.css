@@ -1,0 +1,75 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+.todo-container {
+    padding: 20px;
+    background-color: #1e1e1e;
+    height: 100vh;
+    color: white;
+    overflow: auto;
+}
+
+.todo-title {
+    color: white;
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.todo-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: white;
+}
+
+.todo-table th, .todo-table td {
+    border-top: 1px solid #444;
+    border-bottom: 1px solid #444;
+    padding: 10px;
+    text-align: left;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.status.complete {
+    color: #4CAF50;
+}
+
+.status.incomplete {
+    color: #F44336;
+}
+
+.status-icon {
+    font-size: 1.2em;
+}
+
+.category {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+}
+
+.category.거실 {
+    background-color: #4CAF50;
+}
+
+.category.기타 {
+    background-color: #757575;
+}
+
+.category.고양이 {
+    background-color: #F44336;
+}
+
+.category.발코니 {
+    background-color: #FFA500;
+}
+
+.category.욕실 {
+    background-color: #00BCD4;
+}
