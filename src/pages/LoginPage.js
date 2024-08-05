@@ -7,7 +7,7 @@ function LoginPage(){
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        navigate('/todos');
+        navigate('/todomain');
     };
 
     const handleSignup = () => {
@@ -17,7 +17,7 @@ function LoginPage(){
     return (
         <div className="login-page">
             <div className="app-container">
-                <h2 className="login-todo-title">TO DO 집안일</h2>
+                <h2 className="todo-title">TO DO 집안일</h2>
                 <div className="login-container">
                     <div className="login-box">
                         <h1 className="login-title">USER LOGIN</h1>

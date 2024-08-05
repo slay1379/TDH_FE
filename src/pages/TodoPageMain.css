@@ -1,0 +1,139 @@
+.todo-main-container {
+    padding: 20px;
+    background-color: #1e1e1e;
+    height: 100vh;
+    color: white;
+    overflow: auto;
+}
+
+.todo-main-title {
+    color: white;
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.todo-main-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    color: white;
+}
+
+.todo-main-table th, .todo-main-table td {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid #444;
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+.todo-main-table tr:last-child td{
+    border-bottom: 1px solid #444;
+}
+
+.todo-main-table thead{
+    background-color: #2e2e2e;
+    color: white;
+}
+
+.status-main {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    text-align: center;
+    border: none;
+    color: black;
+    border-radius: 8px;
+}
+
+.status-main.complete {
+    background-color: #4CAF50;
+}
+
+.status-main.incomplete {
+    background-color: #F44336;
+}
+
+.status-icon {
+    margin-right: 5px;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+}
+
+.delayCycle-button, .delayDay-button {
+    display: flex;
+    align-items: center;
+    color: black;
+    border: none;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.delayCycle-button{
+    background-color: #FB8847;
+}
+
+.delayCycle-button:hover{
+    background-color: #e68900;
+}
+
+.delayDay-button {
+    background-color: #FABC2B;
+}
+
+.delayDay-button:hover {
+    background-color: #C89622;
+}
+
+
+.delaybutton-icon {
+    margin-right: 5px;
+    font-size: 1.2em;
+}
+
+.go-to-setting-button{
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.go-to-setting-button:hover{
+    background-color: #0056b3;
+}
+
+input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 5px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
