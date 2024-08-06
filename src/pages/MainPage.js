@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import './TodoPageMain.css';
+import React, { useState, useEffect } from 'react';
+import '../styles/MainPage.css';
 import { FaCheckSquare, FaSquare, FaClock, FaCog } from 'react-icons/fa';
-import { v4 as uuidv4 } from 'uuid'; 
 import { useNavigate } from 'react-router-dom';
 
-const initialTasks = [
-  { id: uuidv4(), complete: false, name: "[고양이] 고양이 똥 치우기", label: "고양이", notes: "", delayCycle: "Delay 1 Cycle", delayDay: "Delay 1 Day" },
-  { id: uuidv4(), complete: true, name: "[주방] 설거지", label: "설거지", notes: "", delayCycle: "Delay 1 Cycle", delayDay: "Delay 1 Day" },
-  { id: uuidv4(), complete: true, name: "[주방] 상판 닦기", label: "상판 닦기", notes: "", delayCycle: "Delay 1 Cycle", delayDay: "Delay 1 Day" },
-  { id: uuidv4(), complete: true, name: "[주방] 주방 아일랜드 위 정리", label: "아일랜드", notes: "", delayCycle: "Delay 1 Cycle", delayDay: "Delay 1 Day" }
-];
-
 function TodoPageMain() {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+      setTasks(JSON.parse(savedTasks));
+    }
+  }, []);
+
   const toggleComplete = (index) => {
-    const updatedTasks = tasks.map((task,i) =>
+    const updatedTasks = tasks.map((task, i) =>
       i === index ? { ...task, complete: !task.complete } : task
     );
     setTasks(updatedTasks);
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
   };
 
   const goToSettings = () => {
@@ -32,10 +32,10 @@ function TodoPageMain() {
 
       <div className="section">
         <h2 className="section-title">
-            <span role="img" aria-label="fire">🔥</span> 오늘 할 일
-            <button className='go-to-setting-button' onClick={goToSettings}>
-                <FaCog />
-            </button> 
+          <span role="img" aria-label="fire">🔥</span> 오늘 할 일
+          <button className='go-to-setting-button' onClick={goToSettings}>
+            <FaCog />
+          </button>
         </h2>
         <table className="todo-main-table">
           <thead>
@@ -52,14 +52,14 @@ function TodoPageMain() {
               <tr key={index}>
                 <td>
                   <button className={`status-main ${task.complete ? 'complete' : 'incomplete'}`} onClick={() => toggleComplete(index)}>
-                  <span className="status-icon">
+                    <span className="status-icon">
                       {task.complete ? <FaCheckSquare /> : <FaSquare />}
                     </span>
                     {task.complete ? "완료" : "미완료"}
                   </button>
                 </td>
-                <td>{task.label}</td>
-                <td>{task.notes}</td>
+                <td>{task.name}</td> {/* name을 Label로 표시 */}
+                <td>{task.category}</td> {/* category를 Notes로 표시 */}
                 <td><button className="delayCycle-button"><FaClock className='delaybutton-icon' />{task.delayCycle}</button></td>
                 <td><button className="delayDay-button"><FaClock className='delaybutton-icon' />{task.delayDay}</button></td>
               </tr>
@@ -91,9 +91,9 @@ function TodoPageMain() {
                     {task.complete ? "완료" : "미완료"}
                   </button>
                 </td>
-                <td>{task.label}</td>
-                <td>{task.notes}</td>
-                <td><button className="delayCycle-button"><FaClock className='delaybutton-icon' />{task.delayCycle}</button></td>
+                <td>{task.name}</td> {/* name을 Label로 표시 */}
+                <td>{task.category}</td> {/* category를 Notes로 표시 */}
+                <td><button className="delayCycle-button"><FaClock className='delaybutton-icon' />clcye</button></td>
                 <td><button className="delayDay-button"><FaClock className='delaybutton-icon' />{task.delayDay}</button></td>
               </tr>
             ))}
