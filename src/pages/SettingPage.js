@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/SettingPage.css';
-import { FaCheckSquare, FaSquare, FaPlus } from 'react-icons/fa';
+import { FaCheckSquare, FaSquare, FaPlus, FaSearch, FaSort, FaTrash } from 'react-icons/fa';
 
 const categories = ["거실", "발코니", "욕실", "기타"];
 
 function SettingPage() {
   const [tasks, setTasks] = useState([]);
-  const [newTask, setNewTask] = useState({ name: "", category: "", frequency: "" });
+  const [newTask, setNewTask] = useState({ name: "", category: "", frequency: "", notes: "" });
   const [showNewTaskForm, setShowNewTaskForm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,7 +22,7 @@ function SettingPage() {
 
   useEffect(() => {
     if (tasks.length > 0){
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+      localStorage.setItem('tasks', JSON.stringify(tasks));
     }
   }, [tasks]);
 
@@ -37,19 +39,58 @@ function SettingPage() {
   };
 
   const addNewTask = () => {
-    setTasks([...tasks, { ...newTask, complete: false, notes: "", lastDate: "", nextDate: "" }]);
-    setNewTask({ name: "", category: "", frequency: "" });
+    const currentDate = new Date().toISOString().split('T')[0];
+    setTasks([...tasks, { ...newTask, complete: false, lastDate: currentDate, nextDate: currentDate }]);
+    setNewTask({ name: "", category: "", frequency: "", notes: "" });
     setShowNewTaskForm(false);
   };
 
   const cancelNewTask = () => {
-    setNewTask({ name: "", category: "", frequency: "" });
+    setNewTask({ name: "", category: "", frequency: "", notes: "" });
     setShowNewTaskForm(false);
   };
 
   const handleConfirm = () => {
     navigate('/todomain');
   };
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const deleteTask = (index) => {
+    const updatedTasks = tasks.filter((task, i) => i !== index);
+    setTasks(updatedTasks);
+  };
+
+  const filteredTasks = tasks.filter(task =>
+    task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    task.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const requestSort = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedTasks = React.useMemo(() => {
+    let sortableTasks = [...filteredTasks];
+    if (sortConfig.key !== null) {
+      sortableTasks.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    return sortableTasks;
+  }, [filteredTasks, sortConfig]);
 
   return (
     <div className='todo-setting-container'>
@@ -62,41 +103,56 @@ function SettingPage() {
           확인
         </button>
       </div>
+      <div className='setting-search-container'>
+        <FaSearch className='setting-search-icon'/>
+        <input 
+          type='text' 
+          className='setting-search-input' 
+          placeholder='Search...'
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
       <table className='todo-setting-table'>
         <thead>
           <tr>
             <th>Complete</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Frequency</th>
+            <th onClick={() => requestSort('name')}>Name <FaSort /></th>
+            <th onClick={() => requestSort('category')}>Category <FaSort /></th>
+            <th onClick={() => requestSort('frequency')}>Frequency <FaSort /></th>
             <th>Notes</th>
-            <th>Last Date</th>
-            <th>Next Date</th>
+            <th onClick={() => requestSort('lastDate')}>Last Date <FaSort /></th>
+            <th onClick={() => requestSort('nextDate')}>Next Date <FaSort /></th>
+            <th>Delete</th> {/* Delete 칸 추가 */}
           </tr>
         </thead>
         <tbody>
-          {tasks.map((task, index) => (
+          {sortedTasks.map((task, index) => (
             <tr key={index}>
-              <td className={`status-setting ${task.complete ? 'complete' : 'incomplete'}`} onClick={() => toggleComplete(index)}>
-                <span className='status-icon'>
-                  {task.complete ? <FaCheckSquare /> : <FaSquare />}
-                </span>
-                {task.complete ? "완료" : "미완료"}
+              <td data-label="Complete">
+                <button className={`status-setting ${task.complete ? 'complete' : 'incomplete'}`} onClick={() => toggleComplete(index)}>
+                  <span className='status-icon'>
+                    {task.complete ? <FaCheckSquare /> : <FaSquare />}
+                  </span>
+                  {task.complete ? "완료" : "미완료"}
+                </button>
               </td>
-              <td>{task.name}</td>
-              <td className={`category ${task.category}`}>{task.category}</td>
-              <td>{task.frequency}</td>
-              <td>{task.notes}</td>
-              <td>{task.lastDate}</td>
-              <td>{task.nextDate}</td>
+              <td data-label="Name">{task.name}</td>
+              <td data-label="Category" className={`category ${task.category}`}>{task.category}</td>
+              <td data-label="Frequency">{task.frequency}</td>
+              <td data-label="Notes">{task.notes}</td>
+              <td data-label="Last Date">{task.lastDate}</td>
+              <td data-label="Next Date">{task.nextDate}</td>
+              <td data-label="Delete">
+                <button className='delete-task-button' onClick={() => deleteTask(index)}>
+                  <FaTrash />
+                </button>
+              </td> {/* 삭제 버튼 추가 */}
             </tr>
           ))}
           {showNewTaskForm && (
             <tr>
-              <td className='status-setting incomplete'>
-                <span className='status-icon'><FaSquare /></span>
-                미완료
-              </td>
+              <td className='status-setting incomplete'></td>
               <td>
                 <input type="text" name="name" value={newTask.name} onChange={handleInputChange} placeholder='Task Name' />
               </td>
@@ -111,7 +167,10 @@ function SettingPage() {
               <td>
                 <input type="number" name="frequency" value={newTask.frequency} onChange={handleInputChange} placeholder='Frequency' />
               </td>
-              <td colSpan="3">
+              <td>
+                <input type='text' name='notes' value={newTask.notes} onChange={handleInputChange} placeholder='Notes'/>
+              </td>
+              <td colSpan="2">
                 <button className='setting-add-task-button' onClick={addNewTask}>Add Task</button>
                 <button className='setting-cancel-task-button' onClick={cancelNewTask}>Cancel</button>
               </td>

@@ -1,7 +1,7 @@
 .todo-setting-container{
     padding: 20px;
     background-color: #1e1e1e;
-    height: 100vh;
+    min-height: 100vh;
     color: white;
     overflow: auto;
 }
@@ -16,10 +16,10 @@
 .setting-button-container{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
-.new-task-button{
+.new-task-button, .setting-confirm-button{
     background-color: #007bff;
     color: white;
     border: none;
@@ -31,39 +31,81 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    transition: background-color 0.3s ease;
 }
 
-.new-task-button:hover{
+.new-task-button:hover, .setting-confirm-button:hover{
     background-color: #0056b3;
 }
 
 .setting-confirm-button{
     background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 20px;
-    margin-bottom: 10px;
 }
 
-.todo-setting-table{
+.setting-confirm-button:hover{
+    background-color: #218838;
+}
+
+.setting-search-container{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.setting-search-icon{
+    margin-right: 10px;
+}
+
+.setting-search-input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #333;
+    color: white;
+}
+
+.todo-setting-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 10px;
     color: white;
+    table-layout: fixed;
 }
 
-.todo-setting-table th, 
-.todo-setting-table td{
+.todo-setting-table th, .todo-setting-table td {
     border-left: none;
     border-right: none;
     border-top: 1px solid #444;
-    padding: 10px;
+    padding: 10px 5px;
     text-align: left;
     vertical-align: middle;
     line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Complete 열의 너비 조정 */
+.todo-setting-table th:first-child,
+.todo-setting-table td:first-child {
+    width: 100px;
+}
+
+/* 다른 열들의 너비를 균등하게 분배 */
+.todo-setting-table th:not(:first-child),
+.todo-setting-table td:not(:first-child) {
+    width: calc((100% - 100px) / 6);
+}
+
+
+.todo-setting-table th {
+    cursor: pointer;
+    user-select: none;
+}
+
+.todo-setting-table th:hover {
+    background-color: #333;
 }
 
 .todo-setting-table tr:last-child td{
@@ -73,25 +115,26 @@
 .status-setting{
     display: inline-flex;
     align-items: center;
-    padding: 5px 10px;
+    padding: 8px 10px;
     cursor: pointer;
-    border-radius: 4px;
     text-align: center;
     border: none;
     color: black;
+    border-radius: 8px;
 }
 
 .status-setting.complete{
-    color: #4CAF50;
+    background-color: #4CAF50;
 }
 
 .status-setting.incomplete{
-    color: #F44336;
+    background-color: #F44336;
 }
 
 .status-icon {
     margin-right: 5px;
     font-size: 1.2em;
+    display: flex;
     align-items: center;
 }
 
@@ -102,36 +145,22 @@
     text-align: center;
 }
 
-.category.거실{
-    background-color: #4CAF50;
-}
-
-.category.기타{
-    background-color: #757575;
-}
-
-.category.고양이{
-    background-color: #F44336;
-}
-
-.category.발코니{
-    background-color: #FFA500;
-}
-
-.category.욕실{
-    background-color: #00BCD4;
-}
-
-input[type="text"], input[type="number"], select{
+input[type="text"], input[type="number"], input[type="date"], select{
     width: 100%;
-    padding: 5px;
+    padding: 15px;
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    background-color: #333;
+    color:white;
 }
 
-.setting-add-task-button {
+input::placeholder{
+    color: #ccc;
+}
+
+.setting-add-task-button, .setting-cancel-task-button {
     background-color: #007bff;
     color: white;
     border: none;
@@ -140,6 +169,7 @@ input[type="text"], input[type="number"], select{
     cursor: pointer;
     font-size: 16px;
     margin-bottom: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .setting-add-task-button:hover {
@@ -147,16 +177,62 @@ input[type="text"], input[type="number"], select{
 }
 
 .setting-cancel-task-button {
-    background-color: #ff0000;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
+    background-color: #dc3545;
     margin-left: 10px;
 }
 
 .setting-cancel-task-button:hover {
-    background-color: #cc0000;
+    background-color: #c82333;
+}
+
+.delete-task-button{
+    background-color: #dc3454;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-task-button:hover{
+    background-color: #c82333;
+}
+
+.delete-task-button .fa-trash{
+    vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+    .todo-setting-table, .todo-setting-table thead, .todo-setting-table tbody, .todo-setting-table th, .todo-setting-table td, .todo-setting-table tr {
+        display: block;
+    }
+    
+    .todo-setting-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    .todo-setting-table tr {
+        margin-bottom: 15px;
+    }
+    
+    .todo-setting-table td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+    }
+    
+    .todo-setting-table td:before {
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        content: attr(data-label);
+        font-weight: bold;
+    }
 }

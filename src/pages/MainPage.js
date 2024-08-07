@@ -60,8 +60,8 @@ function TodoPageMain() {
                 </td>
                 <td>{task.name}</td> {/* name을 Label로 표시 */}
                 <td>{task.category}</td> {/* category를 Notes로 표시 */}
-                <td><button className="delayCycle-button"><FaClock className='delaybutton-icon' />{task.delayCycle}</button></td>
-                <td><button className="delayDay-button"><FaClock className='delaybutton-icon' />{task.delayDay}</button></td>
+                <td><button className="delayCycle-button"><FaClock className='delaybutton-icon' />Delay 1 Cycle{task.delayCycle}</button></td>
+                <td><button className="delayDay-button"><FaClock className='delaybutton-icon' />Delay 1 Day{task.delayDay}</button></td>
               </tr>
             ))}
           </tbody>
@@ -91,10 +91,10 @@ function TodoPageMain() {
                     {task.complete ? "완료" : "미완료"}
                   </button>
                 </td>
-                <td>{task.name}</td> {/* name을 Label로 표시 */}
-                <td>{task.category}</td> {/* category를 Notes로 표시 */}
-                <td><button className="delayCycle-button"><FaClock className='delaybutton-icon' />clcye</button></td>
-                <td><button className="delayDay-button"><FaClock className='delaybutton-icon' />{task.delayDay}</button></td>
+                <td>{task.name}</td>
+                <td>{task.category}</td>
+                <td><button className="delayCycle-button"><FaClock className='delaybutton-icon' />Delay 1 Cycle{task.delayCycle}</button></td>
+                <td><button className="delayDay-button"><FaClock className='delaybutton-icon' />Delay 1 Day{task.delayDay}</button></td>
               </tr>
             ))}
           </tbody>
