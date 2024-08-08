@@ -14,9 +14,9 @@ function TodoPageMain() {
     }
   }, []);
 
-  const toggleComplete = (index) => {
-    const updatedTasks = tasks.map((task, i) =>
-      i === index ? { ...task, complete: !task.complete } : task
+  const toggleComplete = (id) => {
+    const updatedTasks = tasks.map(task =>
+      task.id === id ? { ...task, complete: !task.complete } : task
     );
     setTasks(updatedTasks);
     localStorage.setItem('tasks', JSON.stringify(updatedTasks));
@@ -48,18 +48,18 @@ function TodoPageMain() {
             </tr>
           </thead>
           <tbody>
-            {tasks.filter(task => !task.complete).map((task, index) => (
-              <tr key={index}>
+            {tasks.filter(task => !task.complete).map((task) => (
+              <tr key={task.id}>
                 <td>
-                  <button className={`status-main ${task.complete ? 'complete' : 'incomplete'}`} onClick={() => toggleComplete(index)}>
+                  <button className={`status-main ${task.complete ? 'complete' : 'incomplete'}`} onClick={() => toggleComplete(task.id)}>
                     <span className="status-icon">
                       {task.complete ? <FaCheckSquare /> : <FaSquare />}
                     </span>
                     {task.complete ? "완료" : "미완료"}
                   </button>
                 </td>
-                <td>{task.name}</td> {/* name을 Label로 표시 */}
-                <td>{task.category}</td> {/* category를 Notes로 표시 */}
+                <td>{task.name}</td>
+                <td>{task.category}</td>
                 <td><button className="delayCycle-button"><FaClock className='delaybutton-icon' />Delay 1 Cycle{task.delayCycle}</button></td>
                 <td><button className="delayDay-button"><FaClock className='delaybutton-icon' />Delay 1 Day{task.delayDay}</button></td>
               </tr>
@@ -81,10 +81,10 @@ function TodoPageMain() {
             </tr>
           </thead>
           <tbody>
-            {tasks.filter(task => task.complete).map((task, index) => (
-              <tr key={index}>
+            {tasks.filter(task => task.complete).map((task) => (
+              <tr key={task.id}>
                 <td>
-                  <button className={`status-main ${task.complete ? 'complete' : 'incomplete'}`} onClick={() => toggleComplete(index)}>
+                  <button className={`status-main ${task.complete ? 'complete' : 'incomplete'}`} onClick={() => toggleComplete(task.id)}>
                     <span className="status-icon">
                       {task.complete ? <FaCheckSquare /> : <FaSquare />}
                     </span>

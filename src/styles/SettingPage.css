@@ -204,6 +204,16 @@ input::placeholder{
     vertical-align: middle;
 }
 
+.edit-task-button, .save-task-button{
+    background-color:#444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
 @media (max-width: 768px) {
     .todo-setting-table, .todo-setting-table thead, .todo-setting-table tbody, .todo-setting-table th, .todo-setting-table td, .todo-setting-table tr {
         display: block;
