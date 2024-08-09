@@ -1,23 +1,81 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../styles/MainPage.css';
-import { FaCheckSquare, FaSquare, FaClock, FaCog } from 'react-icons/fa';
+import { FaCheckSquare, FaSquare, FaClock, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 function TodoPageMain() {
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate();
+  const isFirstLoad = useRef(true);
 
   useEffect(() => {
     const savedTasks = localStorage.getItem('tasks');
+    const today = getCurrentDate();
+    
     if (savedTasks) {
-      setTasks(JSON.parse(savedTasks));
+      let loadedTasks = JSON.parse(savedTasks);
+
+      if (isFirstLoad.current) {
+        loadedTasks = loadedTasks.map(task => {
+          if (task.lastDate === today && task.complete) {
+            return { ...task, complete: false };
+          }
+          return task;
+        });
+        isFirstLoad.currnet = false;
+        setTasks(loadedTasks);
+        localStorage.setItem('tasks', JSON.stringify(loadedTasks));
+      } else {
+        setTasks(loadedTasks);
+      }
     }
   }, []);
 
+  const getCurrentDate = () => {
+    return new Date().toISOString().split('T')[0];
+  };
+
+  const addDays = (date, days) => {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result.toISOString().split('T')[0];
+  };
+
   const toggleComplete = (id) => {
-    const updatedTasks = tasks.map(task =>
-      task.id === id ? { ...task, complete: !task.complete } : task
-    );
+    const updatedTasks = tasks.map(task => {
+      if (task.id === id) {
+        return { ...task, complete: !task.complete };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+  };
+
+  const delayCycle = (id) => {
+    const updatedTasks = tasks.map(task => {
+      if (task.id === id) {
+        const frequency = parseInt(task.frequency, 10) || 1;
+        const newLastDate = addDays(task.lastDate, frequency);
+        const newNextDate = addDays(newLastDate, frequency);
+        return { ...task, lastDate: newLastDate, nextDate: newNextDate };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+    localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+  };
+
+  const delayDay = (id) => {
+    const updatedTasks = tasks.map(task => {
+      if (task.id === id) {
+        const newLastDate = addDays(task.lastDate, 1);
+        const frequency = parseInt(task.frequency, 10) || 1;
+        const newNextDate = addDays(newLastDate, frequency);
+        return { ...task, lastDate: newLastDate, nextDate: newNextDate };
+      }
+      return task;
+    });
     setTasks(updatedTasks);
     localStorage.setItem('tasks', JSON.stringify(updatedTasks));
   };
@@ -26,9 +84,39 @@ function TodoPageMain() {
     navigate('/todosetting');
   };
 
+  const handleLogout = () => {
+    // 로그아웃 로직
+    navigate('/login');
+  }
+
+  const renderTaskRow = (task) => (
+    <tr key={task.id}>
+      <td>
+        <button className={`status-main ${task.complete ? 'complete' : 'incomplete'}`} onClick={() => toggleComplete(task.id)}>
+          <span className="status-icon">
+            {task.complete ? <FaCheckSquare /> : <FaSquare />}
+          </span>
+          {task.complete ? "완료" : "미완료"}
+        </button>
+      </td>
+      <td>{task.name}</td>
+      <td>{task.category}</td>
+      <td><button className="delayCycle-button" onClick={() => delayCycle(task.id)}><FaClock className='delaybutton-icon' />Delay 1 Cycle</button></td>
+      <td><button className="delayDay-button" onClick={() => delayDay(task.id)}><FaClock className='delaybutton-icon' />Delay 1 Day</button></td>
+    </tr>
+  );
+
+  const today = getCurrentDate();
+
   return (
     <div className="todo-main-container">
       <h1 className="todo-main-title">집안일</h1>
+
+      <div className='header-right'>
+        <button className='logout-button' onClick={handleLogout}>
+          <FaSignOutAlt /> Logout
+        </button>
+      </div>
 
       <div className="section">
         <h2 className="section-title">
@@ -48,22 +136,7 @@ function TodoPageMain() {
             </tr>
           </thead>
           <tbody>
-            {tasks.filter(task => !task.complete).map((task) => (
-              <tr key={task.id}>
-                <td>
-                  <button className={`status-main ${task.complete ? 'complete' : 'incomplete'}`} onClick={() => toggleComplete(task.id)}>
-                    <span className="status-icon">
-                      {task.complete ? <FaCheckSquare /> : <FaSquare />}
-                    </span>
-                    {task.complete ? "완료" : "미완료"}
-                  </button>
-                </td>
-                <td>{task.name}</td>
-                <td>{task.category}</td>
-                <td><button className="delayCycle-button"><FaClock className='delaybutton-icon' />Delay 1 Cycle{task.delayCycle}</button></td>
-                <td><button className="delayDay-button"><FaClock className='delaybutton-icon' />Delay 1 Day{task.delayDay}</button></td>
-              </tr>
-            ))}
+            {tasks.filter(task => task.lastDate === today && !task.complete).map(renderTaskRow)}
           </tbody>
         </table>
       </div>
@@ -81,22 +154,7 @@ function TodoPageMain() {
             </tr>
           </thead>
           <tbody>
-            {tasks.filter(task => task.complete).map((task) => (
-              <tr key={task.id}>
-                <td>
-                  <button className={`status-main ${task.complete ? 'complete' : 'incomplete'}`} onClick={() => toggleComplete(task.id)}>
-                    <span className="status-icon">
-                      {task.complete ? <FaCheckSquare /> : <FaSquare />}
-                    </span>
-                    {task.complete ? "완료" : "미완료"}
-                  </button>
-                </td>
-                <td>{task.name}</td>
-                <td>{task.category}</td>
-                <td><button className="delayCycle-button"><FaClock className='delaybutton-icon' />Delay 1 Cycle{task.delayCycle}</button></td>
-                <td><button className="delayDay-button"><FaClock className='delaybutton-icon' />Delay 1 Day{task.delayDay}</button></td>
-              </tr>
-            ))}
+            {tasks.filter(task => task.lastDate === today && task.complete).map(renderTaskRow)}
           </tbody>
         </table>
       </div>

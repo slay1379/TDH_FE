@@ -38,9 +38,12 @@ function SettingPage() {
   }
 
   const toggleComplete = (id) => {
-    const updatedTasks = tasks.map(task =>
-        task.id === id ? { ...task, complete: !task.complete } : task
-    );
+    const updatedTasks = tasks.map(task => {
+        if (task.id === id){
+            return { ...task, complete: !task.complete };
+        }
+        return task;
+    });
     setTasks(updatedTasks);
     localStorage.setItem('tasks', JSON.stringify(updatedTasks));
   };
@@ -69,7 +72,8 @@ function SettingPage() {
   const addNewTask = () => {
     const currentDate = getCurrentDate();
     const nextDate = addDays(currentDate, parseInt(newTask.frequency, 10));
-    setTasks([...tasks,{...newTask, complete: false, lastDate: currentDate, nextDate}]);
+    const newId = Date.now().toString();
+    setTasks([...tasks, {...newTask, id: newId, complete: false, lastDate: currentDate, nextDate}]);
     setNewTask({name: "", category: "", frequency: "", notes: ""});
     setShowNewTaskForm(false);
   };
@@ -88,7 +92,7 @@ function SettingPage() {
   };
 
   const deleteTask = (index) => {
-    const updatedTasks = tasks.filter((task, i) => i !== index);
+    const updatedTasks = tasks.filter((_, i) => i !== index);
     setTasks(updatedTasks);
   };
 
@@ -179,7 +183,7 @@ function SettingPage() {
                     <input type="text" name="notes" value={editTask.notes} onChange={handleEditInputChange} />
                   </td>
                   <td data-label="Last Date">
-                    <input type='data' name='lastDate' value={editTask.lastDate} onChange={handleEditInputChange}/>
+                    <input type='date' name='lastDate' value={editTask.lastDate} onChange={handleEditInputChange}/>
                   </td>
                   <td data-label="Next Date">{editTask.nextDate}</td>
                   <td data-label="수정">
@@ -187,7 +191,7 @@ function SettingPage() {
                       <FaSave />
                     </button>
                   </td>
-                  <td data-lable="삭제">
+                  <td data-label="삭제">
                     <button className='delete-task-button' onClick={() => deleteTask(index)}>
                       <FaTrash />
                     </button>

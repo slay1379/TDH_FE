@@ -132,6 +132,26 @@
     background-color: #0056b3;
 }
 
+.header-right{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.logout-button{
+    background-color: #B0BEC5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.logout-button:hover{
+    background-color: #90A4AE;
+}
+
 input[type="text"], input[type="number"], select {
     width: 100%;
     padding: 5px;
