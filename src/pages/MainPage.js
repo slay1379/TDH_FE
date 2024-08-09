@@ -99,8 +99,8 @@ function TodoPageMain() {
           {task.complete ? "완료" : "미완료"}
         </button>
       </td>
-      <td>{task.name}</td>
-      <td>{task.category}</td>
+      <td>{`[${task.category}] ${task.name}`}</td>
+      <td>{task.notes}</td>
       <td><button className="delayCycle-button" onClick={() => delayCycle(task.id)}><FaClock className='delaybutton-icon' />Delay 1 Cycle</button></td>
       <td><button className="delayDay-button" onClick={() => delayDay(task.id)}><FaClock className='delaybutton-icon' />Delay 1 Day</button></td>
     </tr>
@@ -129,7 +129,7 @@ function TodoPageMain() {
           <thead>
             <tr>
               <th>Complete</th>
-              <th>Label</th>
+              <th>Housework</th>
               <th>Notes</th>
               <th>Delay 1 Cycle</th>
               <th>Delay 1 Day</th>
@@ -147,7 +147,7 @@ function TodoPageMain() {
           <thead>
             <tr>
               <th>Complete</th>
-              <th>Label</th>
+              <th>HouseWork</th>
               <th>Notes</th>
               <th>Delay 1 Cycle</th>
               <th>Delay 1 Day</th>
